@@ -38,7 +38,7 @@ export default function NotesClient({ initialData }: NotesClientProps) {
         ? initialData
         : undefined,
   });
-
+  console.log(data);
   const handleOpenModal = () => {
     setIsModalOpen(true);
   };
@@ -55,7 +55,7 @@ export default function NotesClient({ initialData }: NotesClientProps) {
     <>
       <div className={css.app}>
         <div className={css.toolbar}>
-          <SearchBox onChange={handleSearch} />
+          {/* <SearchBox onChange={handleSearch} /> */}
           {isSuccess && totalPages > 1 && (
             <Pagination
               currentPage={currentPage}
