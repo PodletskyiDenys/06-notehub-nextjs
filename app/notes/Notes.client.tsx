@@ -38,7 +38,7 @@ export default function NotesClient({ initialData }: NotesClientProps) {
         ? initialData
         : undefined,
   });
-  console.log(data);
+
   const handleOpenModal = () => {
     setIsModalOpen(true);
   };
