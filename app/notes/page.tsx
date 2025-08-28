@@ -13,10 +13,7 @@ export default async function NotePage() {
 
   return (
     <Suspense fallback={<p>Loading notes...</p>}>
-      <NotesClient
-        initialNotes={notesData.notes}
-        totalPages={notesData.totalPages}
-      />
+      <NotesClient initialData={notesData} />
     </Suspense>
   );
 }

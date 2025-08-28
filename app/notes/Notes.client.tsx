@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import css from './Notes.module.css';
 import { useDebounce } from 'use-debounce';
+import type { Note } from '@/types/note';
 
 import Pagination from '@/components/Pagination/Pagination';
 import SearchBox from '@/components/SearchBox/SearchBox';
@@ -19,7 +20,7 @@ import { useQuery, keepPreviousData } from '@tanstack/react-query';
 import type { FetchNotesResponse } from '@/lib/api';
 
 interface NotesClientProps {
-  initialData: FetchNotesResponse;
+  initialData: { notes: Note[]; totalPages: number };
 }
 
 export default function NotesClient({ initialData }: NotesClientProps) {
