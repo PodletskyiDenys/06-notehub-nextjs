@@ -1,33 +1,22 @@
-'use client';
-
-import React from 'react';
-import { useQuery } from '@tanstack/react-query';
+import { Suspense } from 'react';
+import NotesClient from './Notes.client';
 import { fetchNotes } from '@/lib/api';
 
-const NotesPage = () => {
-  const page = 1;
-  const search = '';
-
-  const { data, isLoading, error } = useQuery({
-    queryKey: ['notes', page, search],
-    queryFn: ({ queryKey }) =>
-      fetchNotes(queryKey[1] as number, queryKey[2] as string),
-  });
-
-  if (isLoading) return <p>Loading...</p>;
-  if (error) return <p>Error loading notes</p>;
+export default async function NotePage() {
+  let notesData;
+  try {
+    notesData = await fetchNotes(1); // сторінка 1 за замовчуванням
+  } catch (error) {
+    console.error(error);
+    notesData = { notes: [], totalPages: 0 };
+  }
 
   return (
-    <div>
-      <h1>Notes</h1>
-      {data?.notes.map((note) => (
-        <div key={note.id}>
-          <h2>{note.title}</h2>
-          <p>{note.content}</p>
-        </div>
-      ))}
-    </div>
+    <Suspense fallback={<p>Loading notes...</p>}>
+      <NotesClient
+        initialNotes={notesData.notes}
+        totalPages={notesData.totalPages}
+      />
+    </Suspense>
   );
-};
-
-export default NotesPage;
+}

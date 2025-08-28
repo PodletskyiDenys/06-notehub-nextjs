@@ -1,17 +1,17 @@
 import css from './NoteForm.module.css';
 import { Formik, Form, Field, type FormikHelpers, ErrorMessage } from 'formik';
 import { useId } from 'react';
-import type { NewNoteData } from '../../types/note';
+import type { NewNote } from '@/lib/api';
 import * as Yup from 'yup';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
-import { addNote } from '@/lib/api';
+import { createNote } from '@/lib/api';
 
 interface NoteFormProps {
   onClose: () => void;
 }
 
-const initialValues: NewNoteData = {
+const initialValues: NewNote = {
   title: '',
   content: '',
   tag: 'Todo',
@@ -33,7 +33,7 @@ export default function NoteForm({ onClose }: NoteFormProps) {
   const queryClient = useQueryClient();
 
   const mutation = useMutation({
-    mutationFn: addNote,
+    mutationFn: createNote,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['notes'] });
       toast.success('Note is created!');
@@ -44,11 +44,8 @@ export default function NoteForm({ onClose }: NoteFormProps) {
     },
   });
 
-  const handleSubmit = (
-    values: NewNoteData,
-    actions: FormikHelpers<NewNoteData>,
-  ) => {
-    const newNote: NewNoteData = {
+  const handleSubmit = (values: NewNote, actions: FormikHelpers<NewNote>) => {
+    const newNote: NewNote = {
       title: values.title,
       content: values.content,
       tag: values.tag,
